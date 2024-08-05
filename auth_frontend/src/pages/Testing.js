@@ -1,0 +1,76 @@
+import { useState } from "react";
+import { generateToken } from "../data/functions";
+
+const users = [
+    {
+        'email': 'jeff.webb@renown.org',
+        'password': 'password',
+        'permissions':[
+            {'PAT': "investigator"}
+        ]
+    },
+    {
+        'email': 'lisa.lionetti@renown.org',
+        'password': 'password',
+        'permissions': [
+            {'PAT': 'coordinator'}
+        ]
+    }
+]
+
+const Testing = () => {
+  const [search, setSearch] = useState(null)
+  const [token, setToken] = useState(null)
+  
+  const handleSubmitEvent = (e) => {
+    e.preventDefault();
+    if (search !== "") {
+      var user = users.find(user => {
+        return user.email === search.value
+      })
+      alert(user.password)
+    }else{
+    alert("please provide a valid input");
+    }
+}
+
+    const handleGenerate = (e) => {
+        e.preventDefault()
+        let token = generateToken(search.value)
+        console.log(token)
+        setToken(token)
+    }
+  const handleInput = (e) => {
+    const { value } = e.target;
+    setSearch((prev) => ({
+      ...prev,
+      value
+    }));
+  };
+
+  return (
+    <div>
+    <form onSubmit={handleGenerate}>
+        <div className="form_control">
+            <label htmlFor="user-email">Email:</label>
+            <input
+                type="email"
+                id="user-email"
+                name="email"
+                placeholder="example@yahoo.com"
+                aria-describedby="user-email"
+                aria-invalid="false"
+                onChange={handleInput}
+            />
+            <div id="user-email" className="sr-only">
+                Please enter a valid username. It must contain at least 6 characters.
+            </div>
+        </div>
+        <button className="btn-submit">Submit</button>
+    </form>
+    <p>{token}</p>
+    </div>
+  )
+}
+
+export default Testing
