@@ -1,8 +1,18 @@
 import React from 'react'
+import { useAuth } from '../auth/AuthProvider'
 
 const Dashboard = () => {
+  const auth = useAuth()
+  
   return (
-    <div>Dashboard</div>
+    <div className="container">
+      <div>
+        <h1>Welcome! {auth.user?.username}</h1>
+        <button onClick={() => auth.logout()} className="btn-submit">
+          Logout
+        </button>
+      </div>
+    </div>
   )
 }
 
