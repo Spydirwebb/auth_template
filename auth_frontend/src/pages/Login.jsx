@@ -1,24 +1,34 @@
 import { useState } from "react";
 import { useAuth } from "../auth/AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [input, setInput] = useState({
-    username: "",
+    email: "",
     password: "",
   });
-
+  const [incorrect, setIncorrect] = useState(false)
   const auth = useAuth();
+  const navigate = useNavigate()
+
   const handleSubmitEvent = (e) => {
     e.preventDefault();
-    if (input.username !== "" && input.password !== "") {
-      auth.loginAction(input)
-      return
+    if (input.email !== "" && input.password !== "") {
+      if (auth.loginAction(input)){
+        navigate("/dashboard")
+      } else{
+        setIncorrect(true)
+        setInput((prev) => ({...prev,  password: "",}))
+      }
+      return;
     }
-    alert("please provide a valid input");
+    alert("pleae provide a valid input");
   };
+
 
   const handleInput = (e) => {
     const { name, value } = e.target;
+    
     setInput((prev) => ({
       ...prev,
       [name]: value,
@@ -57,6 +67,7 @@ const Login = () => {
         </div>
       </div>
       <button className="btn-submit">Submit</button>
+      {incorrect ? <p className="error">Incorrect information. Please try again</p> : ""}
     </form>
   );
 };
