@@ -8,6 +8,7 @@ const Login = () => {
     password: "",
   });
   const [incorrect, setIncorrect] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
   const auth = useAuth();
   const navigate = useNavigate()
 
@@ -24,6 +25,11 @@ const Login = () => {
     }
     alert("pleae provide a valid input");
   };
+
+  const handleHide = (e) => {
+    e.preventDefault()
+    setShowPassword(!showPassword)
+  }
 
 
   const handleInput = (e) => {
@@ -55,13 +61,16 @@ const Login = () => {
       <div className="form_control">
         <label htmlFor="password">Password:</label>
         <input
-          type="password"
+          type={showPassword ? "text" : "password"}
           id="password"
           name="password"
           aria-describedby="user-password"
           aria-invalid="false"
           onChange={handleInput}
         />
+        <button onClick={handleHide}>
+          {showPassword ? "Hide" : "Show"}
+        </button>
         <div id="user-password" className="sr-only">
           your password should be more than 6 character
         </div>
