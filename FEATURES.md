@@ -1,0 +1,5 @@
+-Front end auth
+-password protected
+-localstorage
+-auto time out - in progress
+-sign out on exit - in progress
